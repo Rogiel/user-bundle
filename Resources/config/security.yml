@@ -1,0 +1,20 @@
+#
+#  Rogiel Bundles
+#  RogielUserBundle
+#
+#  @link http://www.rogiel.com/
+#  @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
+#  @license Proprietary
+#
+#  This bundle and its related source files can only be used under
+#  explicit licensing from it's authors.
+#
+security:
+    providers:
+        rogiel_user:
+            id: 'rogiel_user.security.user_provider'
+
+    encoders:
+        Rogiel\Bundle\UserBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 13

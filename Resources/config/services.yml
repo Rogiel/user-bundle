@@ -1,0 +1,32 @@
+#
+#  Rogiel Bundles
+#  RogielUserBundle
+#
+#  @link http://www.rogiel.com/
+#  @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
+#  @license Proprietary
+#
+#  This bundle and its related source files can only be used under
+#  explicit licensing from it's authors.
+#
+services:
+    rogiel_user.repository.user:
+        class: Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - 'Rogiel\Bundle\UserBundle\Entity\User'
+
+    rogiel_user.service.user:
+        class: Rogiel\Bundle\UserBundle\Service\UserService
+        arguments: ['@rogiel_user.repository.user', '@event_dispatcher', '@security.password_encoder']
+
+
+    rogiel_user.controller.register:
+        class: Rogiel\Bundle\UserBundle\Controller\RegisterController
+        arguments: ['@rogiel_user.service.user']
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    rogiel_user.security.user_provider:
+        class: Rogiel\Bundle\UserBundle\Security\UserProvider
+        arguments: ['@rogiel_user.repository.user']

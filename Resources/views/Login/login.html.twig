@@ -1,0 +1,48 @@
+{% extends 'RogielUserBundle::base.html.twig' %}
+
+{% block content %}
+    <form method="post" action="{{ url('rogiel_user_login_check') }}" role="login">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <section class="login-form">
+                    <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt=""/>
+
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        </div>
+                    {% endif %}
+
+                    <div class="input-group form-signin-email">
+                        <div class="input-group-addon"><i class="fa fa-user fa-fw fa-lg"></i></div>
+                        <input type="email" name="_username" id="username" class="form-control"
+                               placeholder="{% trans from "rogiel_user" %}Email address{% endtrans %}" required autofocus>
+                    </div>
+
+                    <label for="username" class="sr-only">Password</label>
+                    <div class="input-group form-signin-password">
+                        <div class="input-group-addon"><i class="fa fa-key fa-fw fa-lg"></i></div>
+                        <input type="password" name="_password" id="inputPassword" class="form-control"
+                               placeholder="{% trans from "rogiel_user" %}Password{% endtrans %}" required>
+                    </div>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="true" name="_remember_me"
+                                   checked="checked">
+                            {% trans from "rogiel_user" %}Remember me{% endtrans %}
+                        </label>
+                    </div>
+
+                    <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">{% trans from "rogiel_user" %}Login{% endtrans %}</button>
+
+                    <ul class="form-links list-inline">
+                        <li><a href="{{ url('rogiel_user_register') }}">{% trans from "rogiel_user" %}Create a new account{% endtrans %}</a></li>
+                        <li><a href="#">{% trans from "rogiel_user" %}Forgot your password?{% endtrans %}</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

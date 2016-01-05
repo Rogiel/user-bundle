@@ -1,0 +1,11 @@
+{% extends 'AppBundle:layout:container.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% stylesheets '@RogielUserBundle/Resources/assets/css/login.css' filter='cssrewrite' combine=true %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+
+{% endblock %}

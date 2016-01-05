@@ -1,0 +1,28 @@
+{
+    "name": "rogiel/user-bundle",
+    "version": "1.0",
+    "type": "symfony-bundle",
+    "description": "Symfony User Bundle",
+    "keywords": ["User"],
+    "homepage": "https://rogiel.com/symfony",
+    "license": "Proprietary",
+    "authors": [{
+        "name": "Rogiel Sulzbach",
+        "email": "rogiel@rogiel.com",
+        "homepage": "https://rogiel.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Rogiel\\Bundle\\UserBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "symfony/framework-bundle": "~3.0",
+        "symfony/security-bundle": "~3.0",
+        "symfony/yaml": "~3.0"
+    },
+    "suggest": {
+        "rogiel/facebook-bundle": "Integrates with Facebook login and authentication"
+    }
+}
