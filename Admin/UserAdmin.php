@@ -16,12 +16,14 @@ namespace Rogiel\Bundle\UserBundle\Admin;
 use Rogiel\Bundle\BlogBundle\Entity\Author;
 use Rogiel\Bundle\BlogBundle\Entity\Category;
 use Rogiel\Bundle\BlogBundle\Entity\Post;
+use Rogiel\Bundle\GravatarBundle\Twig\Extension\GravatarExtension;
 use Rogiel\Bundle\UserBundle\Entity\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Model\Metadata;
 
 class UserAdmin extends AbstractAdmin {
     protected $baseRouteName = 'rogiel_user_admin_user';
@@ -44,8 +46,14 @@ class UserAdmin extends AbstractAdmin {
             ))
             ->end()
             ->with('Metadata', array('class' => 'col-md-4'))
-            ->add('created_at', 'sonata_type_datetime_picker')
-            ->add('updated_at', 'sonata_type_datetime_picker')
+            ->add('created_at', 'sonata_type_datetime_picker', array(
+                'disabled'  => true,
+                'required' => false
+            ))
+            ->add('updated_at', 'sonata_type_datetime_picker', array(
+                'disabled'  => true,
+                'required' => false
+            ))
             ->end()
         ;
     }
@@ -54,6 +62,8 @@ class UserAdmin extends AbstractAdmin {
         $datagridMapper
             ->add('name')
             ->add('email')
+            ->add('group.name')
+            ->add('group.role')
         ;
     }
 
@@ -87,5 +97,13 @@ class UserAdmin extends AbstractAdmin {
         return $object instanceof User
             ? $object->getName()
             : 'User'; // shown in the breadcrumb on the create view
+    }
+
+    public function getObjectMetadata($object) {
+        if(!$object instanceof User) {
+            return NULL;
+        }
+        $ext = new GravatarExtension();
+        return new Metadata($object->getName(), $object->getGroup()->getName(), $ext->gravatar($object->getEmail()));
     }
 }

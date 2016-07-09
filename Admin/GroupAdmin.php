@@ -29,6 +29,13 @@ class GroupAdmin extends AbstractAdmin {
     protected $baseRoutePattern = 'user/group';
     protected $searchResultActions = array('show', 'edit');
 
+    /**
+     * @inheritDoc
+     */
+    public function configure() {
+        $this->showMosaicButton(false);
+    }
+
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
             ->with('Content', array('class' => 'col-md-8'))
@@ -40,8 +47,14 @@ class GroupAdmin extends AbstractAdmin {
             ))
             ->end()
             ->with('Metadata', array('class' => 'col-md-4'))
-            ->add('created_at', 'sonata_type_datetime_picker')
-            ->add('updated_at', 'sonata_type_datetime_picker')
+            ->add('created_at', 'sonata_type_datetime_picker', array(
+                'disabled'  => true,
+                'required' => false
+            ))
+            ->add('updated_at', 'sonata_type_datetime_picker', array(
+                'disabled'  => true,
+                'required' => false
+            ))
             ->end()
         ;
     }
@@ -50,6 +63,8 @@ class GroupAdmin extends AbstractAdmin {
         $datagridMapper
             ->add('name')
             ->add('role')
+            ->add('parent.name')
+            ->add('parent.role')
         ;
     }
 
