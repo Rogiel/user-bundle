@@ -64,7 +64,7 @@ class User implements UserInterface {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Rogiel\Bundle\UserBundle\Entity\Group", inversedBy="users", fetch="EAGER")
 	 * @ORM\JoinColumns({
-	 *  @ORM\JoinColumn(name="group", referencedColumnName="groupid")
+	 *  @ORM\JoinColumn(name="groupid", referencedColumnName="groupid")
 	 * })
 	 * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
 	 */
@@ -167,7 +167,7 @@ class User implements UserInterface {
 	 *
 	 * @return User
 	 */
-	public function setGroup(Group $group = null) {
+	public function setGroup(Group $group) {
 		$this->group = $group;
 
 		return $this;

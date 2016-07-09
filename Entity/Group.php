@@ -66,7 +66,7 @@ class Group {
 	 * @ORM\Column(name="role", type="string", length=100, nullable=false)
 	 *
 	 * @Assert\NotBlank()
-	 * @Assert\Regex(pattern="ROLE_(.*)")
+	 * @Assert\Regex(pattern="/^ROLE_(.*)$/")
 	 */
 	private $role;
 

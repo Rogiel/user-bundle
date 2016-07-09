@@ -30,3 +30,15 @@ services:
     rogiel_user.security.user_provider:
         class: Rogiel\Bundle\UserBundle\Security\UserProvider
         arguments: ['@rogiel_user.repository.user']
+
+    rogiel_user.admin.user:
+        class: Rogiel\Bundle\UserBundle\Admin\UserAdmin
+        arguments: [~, Rogiel\Bundle\UserBundle\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User }
+
+    rogiel_user.admin.group:
+        class: Rogiel\Bundle\UserBundle\Admin\GroupAdmin
+        arguments: [~, Rogiel\Bundle\UserBundle\Entity\Group, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Group }

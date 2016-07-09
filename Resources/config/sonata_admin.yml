@@ -1,0 +1,19 @@
+##
+## Rogiel.com
+## Rogiel.com main website app
+##
+## @link http://www.rogiel.com/
+## @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
+## @license Proprietary
+##
+
+sonata_admin:
+    dashboard:
+        groups:
+            user:
+                label:                User
+                label_catalogue:      ~
+                icon:                 '<i class="fa fa-users"></i>'
+                items:
+                    - rogiel_user.admin.user
+                    - rogiel_user.admin.group
