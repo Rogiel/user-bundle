@@ -39,6 +39,9 @@ class UserAdmin extends AbstractAdmin {
             ->add('email', 'text', array(
                 'help' => 'The user email'
             ))
+            ->add('plainPassword', 'password', array(
+                'help' => 'The user password'
+            ))
             ->add('group', 'sonata_type_model', array(
                 'class' => 'Rogiel\Bundle\UserBundle\Entity\Group',
                 'property' => 'name',
@@ -91,6 +94,19 @@ class UserAdmin extends AbstractAdmin {
             ->add('updated_at', 'datetime')
             ->end()
         ;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function prePersist($object) {
+        /** @var User $user */
+        $user = $object;
+        if($user->getPlainPassword()) {
+            $encoder = $this->getConfigurationPool()->getContainer()->get('security.password_encoder');
+            $encodedPassword = $encoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($encodedPassword);
+        }
     }
 
     public function toString($object) {
