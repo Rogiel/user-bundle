@@ -44,7 +44,7 @@ class Group {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Rogiel\Bundle\UserBundle\Entity\Group", fetch="EAGER")
 	 * @ORM\JoinColumns({
-	 *  @ORM\JoinColumn(name="parent_group", referencedColumnName="groupid")
+	 *  @ORM\JoinColumn(name="parent_group", referencedColumnName="groupid", onDelete="SET NULL")
 	 * })
 	 * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
 	 */
