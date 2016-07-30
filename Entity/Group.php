@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @AssertORM\UniqueEntity(fields={"name"})
  */
-class Group {
+abstract class Group {
 	/**
 	 * @var integer
 	 *
@@ -37,18 +37,12 @@ class Group {
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
 	 */
-	private $id;
+    protected $id;
 
 	/**
 	 * @var Group
-	 *
-	 * @ORM\ManyToOne(targetEntity="Rogiel\Bundle\UserBundle\Entity\Group", fetch="EAGER")
-	 * @ORM\JoinColumns({
-	 *  @ORM\JoinColumn(name="parent_group", referencedColumnName="groupid", onDelete="SET NULL")
-	 * })
-	 * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
 	 */
-	private $parent;
+	protected $parent;
 
 	/**
 	 * @var string
@@ -58,7 +52,7 @@ class Group {
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=1)
 	 */
-	private $name;
+    protected $name;
 
 	/**
 	 * @var string
@@ -68,7 +62,7 @@ class Group {
 	 * @Assert\NotBlank()
 	 * @Assert\Regex(pattern="/^ROLE_(.*)$/")
 	 */
-	private $role;
+    protected $role;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -77,14 +71,14 @@ class Group {
 	 *
 	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
 	 */
-	private $createdAt;
+    protected $createdAt;
 
 	/**
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
 	 */
-	private $updatedAt;
+	protected $updatedAt;
 
 	// -----------------------------------------------------------------------------------------------------------------
 

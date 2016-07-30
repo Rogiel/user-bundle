@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @AssertORM\UniqueEntity(fields={"email"})
  */
-class User implements UserInterface {
+abstract class User implements UserInterface {
 	/**
      * @var integer
      *
@@ -38,7 +38,7 @@ class User implements UserInterface {
      * @ORM\Id
      * @ORM\GeneratedValue
      */
-	private $id;
+    protected $id;
 
 	/**
      * @var string
@@ -48,7 +48,7 @@ class User implements UserInterface {
      * @Assert\Email()
      * @Assert\NotBlank()
      */
-	private $email;
+    protected $email;
 
 	/**
      * @var string
@@ -57,7 +57,7 @@ class User implements UserInterface {
      *
      * @Assert\NotBlank()
      */
-	private $name;
+    protected $name;
 
 	/**
 	 * @var Group
@@ -69,7 +69,7 @@ class User implements UserInterface {
 	 *
 	 * @ORM\Column(name="password", type="string", nullable=false)
 	 */
-	private $password;
+    protected $password;
 
 	/**
 	 * The publshers plain password
@@ -78,7 +78,7 @@ class User implements UserInterface {
 	 *
 	 * @Assert\Length(min="6")
 	 */
-	private $plainPassword;
+    protected $plainPassword;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -87,21 +87,21 @@ class User implements UserInterface {
 	 *
 	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
 	 */
-	private $createdAt;
+    protected $createdAt;
 
 	/**
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
 	 */
-	private $updatedAt;
+    protected $updatedAt;
 
 	/**
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="last_login_at", type="datetime", nullable=true)
 	 */
-	private $lastLoginAt;
+    protected $lastLoginAt;
 
 	// -----------------------------------------------------------------------------------------------------------------
 
