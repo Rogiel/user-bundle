@@ -34,6 +34,9 @@ class RogielUserExtension extends Extension implements PrependExtensionInterface
 
 		$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 		$loader->load('services.yml');
+
+        $container->setParameter('rogiel_user.user_class', $config['user_class']);
+        $container->setParameter('rogiel_user.group_class', $config['group_class']);
 	}
 
     /**

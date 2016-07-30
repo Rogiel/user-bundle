@@ -14,7 +14,7 @@ services:
         class: Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
-            - 'Rogiel\Bundle\UserBundle\Entity\User'
+            - '%rogiel_user.user_class%'
 
     rogiel_user.service.user:
         class: Rogiel\Bundle\UserBundle\Service\UserService

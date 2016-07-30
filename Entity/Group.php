@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user_group", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="name", columns={"name"})
  * })
- * @ORM\Entity(repositoryClass="Rogiel\Bundle\UserBundle\Entity\Repository\GroupRepository")
+ * @ORM\MappedSuperclass(repositoryClass="Rogiel\Bundle\UserBundle\Entity\Repository\GroupRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  *
  * @AssertORM\UniqueEntity(fields={"name"})
@@ -90,11 +90,8 @@ class Group {
 
 	/**
 	 * @var ArrayCollection
-	 *
-	 * @ORM\OneToMany(mappedBy="group", targetEntity="Rogiel\Bundle\UserBundle\Entity\User", fetch="LAZY")
-	 * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
 	 */
-	private $users;
+	protected $users;
 
 	// -----------------------------------------------------------------------------------------------------------------
 

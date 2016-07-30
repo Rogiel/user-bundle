@@ -1,19 +1,19 @@
 <?php
 
-/**
- * Rogiel Bundles
- * RogielUserBundle
- *
- * @link http://www.rogiel.com/
- * @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
- * @license Proprietary
- *
- * This bundle and its related source files can only be used under
- * explicit licensing from it's authors.
- */
+    /**
+     * Rogiel Bundles
+     * RogielUserBundle
+     *
+     * @link http://www.rogiel.com/
+     * @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
+     * @license Proprietary
+     *
+     * This bundle and its related source files can only be used under
+     * explicit licensing from it's authors.
+     */
 namespace Rogiel\Bundle\UserBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+    use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,50 +25,44 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="email", columns={"email"})
  * })
- * @ORM\Entity(repositoryClass="Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository")
+ * @ORM\MappedSuperclass(repositoryClass="Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  *
  * @AssertORM\UniqueEntity(fields={"email"})
  */
 class User implements UserInterface {
 	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="userid", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 */
+     * @var integer
+     *
+     * @ORM\Column(name="userid", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     */
 	private $id;
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="email", type="string", length=100, nullable=false)
-	 *
-	 * @Assert\Email()
-	 * @Assert\NotBlank()
-	 */
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=false)
+     *
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     */
 	private $email;
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="name", type="string", length=100, nullable=false)
-	 *
-	 * @Assert\NotBlank()
-	 */
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
+     *
+     * @Assert\NotBlank()
+     */
 	private $name;
 
 	/**
 	 * @var Group
-	 *
-	 * @ORM\ManyToOne(targetEntity="Rogiel\Bundle\UserBundle\Entity\Group", inversedBy="users", fetch="EAGER")
-	 * @ORM\JoinColumns({
-	 *  @ORM\JoinColumn(name="groupid", referencedColumnName="groupid", onDelete="SET NULL")
-	 * })
-	 * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
 	 */
-	private $group;
+	protected $group;
 
 	/**
 	 * @var string
@@ -269,6 +263,9 @@ class User implements UserInterface {
 	 * @inheritDoc
 	 */
 	public function getRoles() {
+	    if($this->group == NULL) {
+	        return array();
+        }
 		return $this->group->getRoles();
 	}
 

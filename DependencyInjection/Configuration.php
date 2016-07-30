@@ -13,6 +13,8 @@
  */
 namespace Rogiel\Bundle\UserBundle\DependencyInjection;
 
+use Rogiel\Bundle\UserBundle\Entity\Group;
+use Rogiel\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -29,9 +31,16 @@ class Configuration implements ConfigurationInterface {
 		$treeBuilder = new TreeBuilder();
 		$rootNode = $treeBuilder->root('rogiel_user');
 
-		// Here you should define the parameters that are allowed to
-		// configure your bundle. See the documentation linked above for
-		// more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('user_class')
+                    ->defaultValue(User::class)
+                ->end()
+                ->scalarNode('group_class')
+                    ->defaultValue(Group::class)
+                ->end()
+            ->end()
+        ;
 
 		return $treeBuilder;
 	}

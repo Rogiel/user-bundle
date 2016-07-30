@@ -32,7 +32,7 @@ class UserProvider implements UserProviderInterface {
 	/**
 	 * @var UserRepository
 	 */
-	private $userRepository;
+	protected $userRepository;
 
 	/**
 	 * UserProvider constructor.
@@ -90,7 +90,7 @@ class UserProvider implements UserProviderInterface {
 	 * @return bool
 	 */
 	public function supportsClass($class) {
-		return $class == 'Rogiel\Bundle\UserBundle\Entity\User';
+		return $class == User::class;
 	}
 
 }
