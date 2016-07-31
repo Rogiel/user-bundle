@@ -42,11 +42,16 @@ class RegisterController extends Controller {
 		$this->userService = $userService;
 	}
 
-	/**
-	 * @Route(name="rogiel_user_register", path="/register")
-	 */
+    /**
+     * @Route(name="rogiel_user_register", path="/register")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
 	public function registerAction(Request $request) {
-		$user = new User();
+	    $userClass = $this->container->getParameter('rogiel_user.user_class');
+		$user = new $userClass;
+
 		$form = $this->createForm(UserType::class, $user, ['register' => true])
 			->add('submit', SubmitType::class);
 		$form->handleRequest($request);

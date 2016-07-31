@@ -13,6 +13,7 @@
  */
 namespace Rogiel\Bundle\UserBundle\Service;
 
+use Rogiel\Bundle\UserBundle\Entity\Repository\GroupRepository;
 use Rogiel\Bundle\UserBundle\Entity\User;
 use Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository;
 use Rogiel\Bundle\UserBundle\Event\UserEvent;
@@ -27,6 +28,11 @@ class UserService {
 	 */
 	private $userRepository;
 
+    /**
+     * @var GroupRepository
+     */
+    private $groupRepository;
+
 	/**
 	 * @var EventDispatcherInterface
 	 */
@@ -37,16 +43,20 @@ class UserService {
 	 */
 	private $passwordEncoder;
 
-	/**
-	 * UserService constructor.
-	 * @param UserRepository $userRepository
-	 * @param EventDispatcherInterface $eventDispatcher
-	 * @param UserPasswordEncoderInterface $passwordEncoder
-	 */
+    /**
+     * UserService constructor.
+     *
+     * @param UserRepository               $userRepository
+     * @param GroupRepository              $groupRepository
+     * @param EventDispatcherInterface     $eventDispatcher
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
 	public function __construct(UserRepository $userRepository,
+                                GroupRepository $groupRepository,
 	                            EventDispatcherInterface $eventDispatcher,
 	                            UserPasswordEncoderInterface $passwordEncoder) {
-		$this->userRepository = $userRepository;
+        $this->userRepository = $userRepository;
+        $this->groupRepository = $groupRepository;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->passwordEncoder = $passwordEncoder;
 	}
@@ -61,6 +71,11 @@ class UserService {
 		if($this->userRepository->contains($user)) {
 			return NULL;
 		}
+
+		if($user->getGroup() == NULL) {
+		    // assign user to the default group
+            $user->setGroup($this->groupRepository->getDefaultGroup());
+        }
 
 		$this->updatePasswordIfNeeded($user);
 

@@ -16,9 +16,15 @@ services:
         arguments:
             - '%rogiel_user.user_class%'
 
+    rogiel_user.repository.group:
+        class: Rogiel\Bundle\UserBundle\Entity\Repository\GroupRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - '%rogiel_user.group_class%'
+
     rogiel_user.service.user:
         class: Rogiel\Bundle\UserBundle\Service\UserService
-        arguments: ['@rogiel_user.repository.user', '@event_dispatcher', '@security.password_encoder']
+        arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group', '@event_dispatcher', '@security.password_encoder']
 
 
     rogiel_user.controller.register:

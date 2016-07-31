@@ -24,6 +24,21 @@ use Rogiel\Bundle\UserBundle\Entity\Group;
  */
 class GroupRepository extends EntityRepository {
 
+    const DEFAULT_ROLE = 'ROLE_USER';
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Gets the default user group for new accounts
+     *
+     * @return Group
+     */
+    public function getDefaultGroup() {
+        return $this->findOneBy(['role' => self::DEFAULT_ROLE]);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * @return \Doctrine\ORM\QueryBuilder
 	 */

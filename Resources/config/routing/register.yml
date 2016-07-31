@@ -9,7 +9,7 @@
 #  This bundle and its related source files can only be used under
 #  explicit licensing from it's authors.
 #
-rogiel_user:
+rogiel_user_register:
     type:     annotation
-    resource: '@RogielUserBundle/Controller'
+    resource: '@RogielUserBundle/Controller/RegisterController.php'
     prefix:   ~

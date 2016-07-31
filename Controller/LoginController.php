@@ -44,9 +44,7 @@ class LoginController extends Controller {
 	/**
 	 * @Route("/login_check", name="rogiel_user_login_check")
 	 */
-	public function loginCheckAction(Request $request) {
-
-	}
+	public function loginCheckAction(Request $request) { }
 
 	/**
 	 * @Route("/logout", name="rogiel_user_logout")
