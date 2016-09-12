@@ -24,7 +24,7 @@ services:
 
     rogiel_user.service.user:
         class: Rogiel\Bundle\UserBundle\Service\UserService
-        arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group', '@event_dispatcher', '@security.password_encoder']
+        arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group','@event_dispatcher', '@security.password_encoder']
 
 
     rogiel_user.controller.register:
@@ -35,16 +35,16 @@ services:
 
     rogiel_user.security.user_provider:
         class: Rogiel\Bundle\UserBundle\Security\UserProvider
-        arguments: ['@rogiel_user.repository.user']
+        arguments: ['@rogiel_user.repository.user', '%rogiel_user.user_class%']
 
     rogiel_user.admin.user:
         class: Rogiel\Bundle\UserBundle\Admin\UserAdmin
-        arguments: [~, Rogiel\Bundle\UserBundle\Entity\User, ~]
+        arguments: [~, '%rogiel_user.user_class%', ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: User }
 
     rogiel_user.admin.group:
         class: Rogiel\Bundle\UserBundle\Admin\GroupAdmin
-        arguments: [~, Rogiel\Bundle\UserBundle\Entity\Group, ~]
+        arguments: [~, '%rogiel_user.group_class%', ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Group }

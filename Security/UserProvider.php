@@ -34,12 +34,18 @@ class UserProvider implements UserProviderInterface {
 	 */
 	protected $userRepository;
 
+    /**
+     * @var string
+     */
+    protected $userClass;
+
 	/**
 	 * UserProvider constructor.
 	 * @param UserRepository $userRepository
 	 */
-	public function __construct(UserRepository $userRepository) {
-		$this->userRepository = $userRepository;
+	public function __construct(UserRepository $userRepository, $userClass) {
+        $this->userRepository = $userRepository;
+        $this->userClass = $userClass;
 	}
 
 	/**
@@ -90,7 +96,7 @@ class UserProvider implements UserProviderInterface {
 	 * @return bool
 	 */
 	public function supportsClass($class) {
-		return $class == User::class;
+		return $class == $this->userClass;
 	}
 
 }
