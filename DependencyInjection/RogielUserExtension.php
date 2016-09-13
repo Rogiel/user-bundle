@@ -37,6 +37,7 @@ class RogielUserExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('rogiel_user.user_class', $config['user_class']);
         $container->setParameter('rogiel_user.group_class', $config['group_class']);
+        $container->setParameter('rogiel_user.default_user_role', $config['default_user_role']);
 	}
 
     /**

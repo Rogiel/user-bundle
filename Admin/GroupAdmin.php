@@ -42,7 +42,6 @@ class GroupAdmin extends AbstractAdmin {
             ->add('name', 'text')
             ->add('role', 'text')
             ->add('parent', 'sonata_type_model', array(
-                'class' => 'Rogiel\Bundle\UserBundle\Entity\Group',
                 'property' => 'name',
             ))
             ->end()
@@ -82,7 +81,6 @@ class GroupAdmin extends AbstractAdmin {
                 ->add('name', 'text')
                 ->add('role', 'text')
                 ->add('parent', 'sonata_type_model', array(
-                    'class' => 'Rogiel\Bundle\UserBundle\Entity\Group',
                     'associated_property' => 'name',
                 ))
             ->end()

@@ -49,6 +49,10 @@ class RegisterController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
 	public function registerAction(Request $request) {
+	    if($this->getUser() != NULL) {
+	        throw $this->createNotFoundException();
+        }
+
 	    $userClass = $this->container->getParameter('rogiel_user.user_class');
 		$user = new $userClass;
 
@@ -59,7 +63,7 @@ class RegisterController extends Controller {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->userService->create($user);
 
-			return $this->redirectToRoute('rogiel_user_validation_required');
+			return $this->redirectToRoute('homepage');
 		}
 
 		return $this->render('RogielUserBundle:Register:register.html.twig', [
@@ -71,6 +75,10 @@ class RegisterController extends Controller {
 	 * @Route(name="rogiel_user_validation_required", path="/registration_complete")
 	 */
 	public function validationRequiredAction() {
+        if($this->getUser() != NULL) {
+            throw $this->createNotFoundException();
+        }
+
 		return $this->render('RogielUserBundle:Register:validation_required.html.twig');
 	}
 
@@ -78,6 +86,9 @@ class RegisterController extends Controller {
 	 * @Route(name="rogiel_user_validation", path="/registration_validate")
 	 */
 	public function validateAction() {
+        if($this->getUser() != NULL) {
+            throw $this->createNotFoundException();
+        }
 
 	}
 

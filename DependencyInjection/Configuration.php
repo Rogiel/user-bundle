@@ -39,6 +39,9 @@ class Configuration implements ConfigurationInterface {
                 ->scalarNode('group_class')
                     ->defaultValue(Group::class)
                 ->end()
+                ->scalarNode('default_user_role')
+                    ->defaultValue('ROLE_USER')
+                ->end()
             ->end()
         ;
 

@@ -43,7 +43,6 @@ class UserAdmin extends AbstractAdmin {
                 'help' => 'The user password'
             ))
             ->add('group', 'sonata_type_model', array(
-                'class' => 'Rogiel\Bundle\UserBundle\Entity\Group',
                 'property' => 'name',
                 'help' => 'The user group'
             ))
@@ -84,7 +83,6 @@ class UserAdmin extends AbstractAdmin {
             ->add('name', 'text')
             ->add('email', 'text')
             ->add('group', 'sonata_type_model', array(
-                'class' => 'Rogiel\Bundle\UserBundle\Entity\Group',
                 'associated_property' => 'name',
                 'help' => 'The user group'
             ))

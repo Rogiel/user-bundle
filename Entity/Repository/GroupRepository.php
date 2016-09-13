@@ -12,6 +12,7 @@
  */
 
 namespace Rogiel\Bundle\UserBundle\Entity\Repository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Rogiel\Bundle\UserBundle\Entity\User;
 use Rogiel\Bundle\UserBundle\Entity\Group;

@@ -4,9 +4,9 @@
  * Rogiel Bundles
  * RogielUserBundle
  *
- * @link http://www.rogiel.com/
+ * @link      http://www.rogiel.com/
  * @copyright Copyright (c) 2016 Rogiel Sulzbach (http://www.rogiel.com)
- * @license Proprietary
+ * @license   Proprietary
  *
  * This bundle and its related source files can only be used under
  * explicit licensing from it's authors.
@@ -23,25 +23,34 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserService {
-	/**
-	 * @var UserRepository
-	 */
-	private $userRepository;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
     /**
      * @var GroupRepository
      */
     private $groupRepository;
 
-	/**
-	 * @var EventDispatcherInterface
-	 */
-	private $eventDispatcher;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
-	/**
-	 * @var UserPasswordEncoderInterface
-	 */
-	private $passwordEncoder;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @var string
+     */
+    private $defaultUserGroupRole;
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * UserService constructor.
@@ -51,102 +60,105 @@ class UserService {
      * @param EventDispatcherInterface     $eventDispatcher
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-	public function __construct(UserRepository $userRepository,
+    public function __construct(UserRepository $userRepository,
                                 GroupRepository $groupRepository,
-	                            EventDispatcherInterface $eventDispatcher,
-	                            UserPasswordEncoderInterface $passwordEncoder) {
+                                EventDispatcherInterface $eventDispatcher,
+                                UserPasswordEncoderInterface $passwordEncoder, $defaultUserGroupRole = 'ROLE_USER') {
         $this->userRepository = $userRepository;
         $this->groupRepository = $groupRepository;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->passwordEncoder = $passwordEncoder;
-	}
+        $this->eventDispatcher = $eventDispatcher;
+        $this->passwordEncoder = $passwordEncoder;
+        $this->defaultUserGroupRole = $defaultUserGroupRole;
+    }
 
-	// -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * @param User $user
-	 * @return User
-	 */
-	public function create(User $user) {
-		if($this->userRepository->contains($user)) {
-			return NULL;
-		}
-
-		if($user->getGroup() == NULL) {
-		    // assign user to the default group
-            $user->setGroup($this->groupRepository->getDefaultGroup());
+    /**
+     * @param User $user
+     *
+     * @return User
+     */
+    public function create(User $user) {
+        if ($this->userRepository->contains($user)) {
+            return NULL;
         }
 
-		$this->updatePasswordIfNeeded($user);
+        if ($user->getGroup() == NULL) {
+            // assign user to the default group
+            $user->setGroup($this->groupRepository->findOneBy(['role' => $this->defaultUserGroupRole]));
+        }
 
-		$this->userRepository->persist($user);
-		$this->userRepository->flush($user);
+        $this->updatePasswordIfNeeded($user);
 
-		$this->eventDispatcher->dispatch(
-			UserEvent::CREATE,
-			new UserEvent($user)
-		);
+        $this->userRepository->persist($user);
+        $this->userRepository->flush($user);
 
-		return $user;
-	}
+        $this->eventDispatcher->dispatch(
+            UserEvent::CREATE,
+            new UserEvent($user)
+        );
 
-	/**
-	 * @param User $user
-	 * @return User
-	 */
-	public function edit(User $user) {
-		if(!$this->userRepository->contains($user)) {
-			return NULL;
-		}
+        return $user;
+    }
 
-		$this->updatePasswordIfNeeded($user);
+    /**
+     * @param User $user
+     *
+     * @return User
+     */
+    public function edit(User $user) {
+        if (!$this->userRepository->contains($user)) {
+            return NULL;
+        }
 
-		$this->userRepository->persist($user);
-		$this->userRepository->flush($user);
+        $this->updatePasswordIfNeeded($user);
 
-		$this->eventDispatcher->dispatch(
-			UserEvent::EDIT,
-			new UserEvent($user)
-		);
+        $this->userRepository->persist($user);
+        $this->userRepository->flush($user);
 
-		return $user;
-	}
+        $this->eventDispatcher->dispatch(
+            UserEvent::EDIT,
+            new UserEvent($user)
+        );
 
-	/**
-	 * @param User $user
-	 * @return bool
-	 */
-	public function delete(User $user) {
-		if(!$this->userRepository->contains($user)) {
-			return false;
-		}
+        return $user;
+    }
 
-		$this->userRepository->remove($user);
-		$this->userRepository->flush($user);
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function delete(User $user) {
+        if (!$this->userRepository->contains($user)) {
+            return false;
+        }
 
-		$this->eventDispatcher->dispatch(
-			UserEvent::DELETE,
-			new UserEvent($user)
-		);
+        $this->userRepository->remove($user);
+        $this->userRepository->flush($user);
 
-		return true;
-	}
+        $this->eventDispatcher->dispatch(
+            UserEvent::DELETE,
+            new UserEvent($user)
+        );
 
-	// -----------------------------------------------------------------------------------------------------------------
+        return true;
+    }
 
-	private function updatePasswordIfNeeded(User $user) {
-		if($user->getPlainPassword() != NULL) {
-			$encodedPassword = $this->passwordEncoder->encodePassword(
-				$user,
-				$user->getPlainPassword()
-			);
+    // -----------------------------------------------------------------------------------------------------------------
 
-			$user->setPassword($encodedPassword);
-			$user->eraseCredentials();
-		}
+    private function updatePasswordIfNeeded(User $user) {
+        if ($user->getPlainPassword() != NULL) {
+            $encodedPassword = $this->passwordEncoder->encodePassword(
+                $user,
+                $user->getPlainPassword()
+            );
 
-	}
+            $user->setPassword($encodedPassword);
+            $user->eraseCredentials();
+        }
 
+    }
 
 
 }

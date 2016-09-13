@@ -23,6 +23,10 @@ class LoginController extends Controller {
 	 * @Route(name="rogiel_user_login", path="/login")
 	 */
 	public function loginAction(Request $request) {
+        if($this->getUser() != NULL) {
+            throw $this->createNotFoundException();
+        }
+
 		$authenticationUtils = $this->get('security.authentication_utils');
 
 		// get the login error if there is one

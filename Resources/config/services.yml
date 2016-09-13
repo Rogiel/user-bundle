@@ -24,7 +24,7 @@ services:
 
     rogiel_user.service.user:
         class: Rogiel\Bundle\UserBundle\Service\UserService
-        arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group','@event_dispatcher', '@security.password_encoder']
+        arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group','@event_dispatcher', '@security.password_encoder', '%rogiel_user.default_user_role%']
 
 
     rogiel_user.controller.register:
