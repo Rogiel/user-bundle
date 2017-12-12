@@ -18,9 +18,9 @@
     },
     "require": {
         "php": ">=5.4",
-        "symfony/framework-bundle": "~3.0",
-        "symfony/security-bundle": "~3.0",
-        "symfony/yaml": "~3.0"
+        "symfony/framework-bundle": "~3.0 | ~4.0",
+        "symfony/security-bundle": "~3.0 | ~4.0",
+        "symfony/yaml": "~3.0 | ~4.0"
     },
     "suggest": {
         "rogiel/facebook-bundle": "Integrates with Facebook login and authentication"
