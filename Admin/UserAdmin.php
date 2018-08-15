@@ -22,8 +22,12 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 use Sonata\CoreBundle\Model\Metadata;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UserAdmin extends AbstractAdmin {
     protected $baseRouteName = 'rogiel_user_admin_user';
@@ -33,26 +37,26 @@ class UserAdmin extends AbstractAdmin {
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
             ->with('Content', array('class' => 'col-md-8'))
-            ->add('name', 'text', array(
+            ->add('name', TextType::class, array(
                 'help' => 'The user full name'
             ))
-            ->add('email', 'text', array(
+            ->add('email', TextType::class, array(
                 'help' => 'The user email'
             ))
-            ->add('plainPassword', 'password', array(
+            ->add('plainPassword', PasswordType::class, array(
                 'help' => 'The user password'
             ))
-            ->add('group', 'sonata_type_model', array(
+            ->add('group', ModelType::class, array(
                 'property' => 'name',
                 'help' => 'The user group'
             ))
             ->end()
             ->with('Metadata', array('class' => 'col-md-4'))
-            ->add('created_at', 'sonata_type_datetime_picker', array(
+            ->add('created_at', DateTimePickerType::class, array(
                 'disabled'  => true,
                 'required' => false
             ))
-            ->add('updated_at', 'sonata_type_datetime_picker', array(
+            ->add('updated_at', DateTimePickerType::class, array(
                 'disabled'  => true,
                 'required' => false
             ))
@@ -74,15 +78,23 @@ class UserAdmin extends AbstractAdmin {
             ->addIdentifier('name')
             ->addIdentifier('email')
             ->addIdentifier('group.name')
+            ->add('_action', NULL, array(
+                'actions' => array(
+                    'show'   => array(),
+                    'edit'   => array(),
+                    'delete' => array()
+                ),
+                'label'   => 'Actions'
+            ))
         ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper) {
         $showMapper
             ->with('Content', array('class' => 'col-md-8'))
-            ->add('name', 'text')
-            ->add('email', 'text')
-            ->add('group', 'sonata_type_model', array(
+            ->add('name', TextType::class)
+            ->add('email', TextType::class)
+            ->add('group', ModelType::class, array(
                 'associated_property' => 'name',
                 'help' => 'The user group'
             ))
@@ -118,6 +130,9 @@ class UserAdmin extends AbstractAdmin {
             return NULL;
         }
         $ext = new GravatarExtension();
-        return new Metadata($object->getName(), $object->getGroup()->getName(), $ext->gravatar($object->getEmail()));
+        return new Metadata($object->getName(), $object->getGroup()->getName(), $ext->gravatar($object->getEmail()), array(
+            'width' => 128,
+            'height' => 128
+        ));
     }
 }

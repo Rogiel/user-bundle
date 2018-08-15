@@ -13,38 +13,44 @@ services:
     rogiel_user.repository.user:
         class: Rogiel\Bundle\UserBundle\Entity\Repository\UserRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        public: true
         arguments:
             - '%rogiel_user.user_class%'
 
     rogiel_user.repository.group:
         class: Rogiel\Bundle\UserBundle\Entity\Repository\GroupRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        public: true
         arguments:
             - '%rogiel_user.group_class%'
 
     rogiel_user.service.user:
         class: Rogiel\Bundle\UserBundle\Service\UserService
         arguments: ['@rogiel_user.repository.user', '@rogiel_user.repository.group','@event_dispatcher', '@security.password_encoder', '%rogiel_user.default_user_role%']
-
+        public: true
 
     rogiel_user.controller.register:
         class: Rogiel\Bundle\UserBundle\Controller\RegisterController
         arguments: ['@rogiel_user.service.user']
+        public: true
         calls:
             - ['setContainer', ['@service_container']]
 
     rogiel_user.security.user_provider:
         class: Rogiel\Bundle\UserBundle\Security\UserProvider
         arguments: ['@rogiel_user.repository.user', '%rogiel_user.user_class%']
+        public: true
 
     rogiel_user.admin.user:
         class: Rogiel\Bundle\UserBundle\Admin\UserAdmin
         arguments: [~, '%rogiel_user.user_class%', ~]
+        public: true
         tags:
             - { name: sonata.admin, manager_type: orm, label: User }
 
     rogiel_user.admin.group:
         class: Rogiel\Bundle\UserBundle\Admin\GroupAdmin
         arguments: [~, '%rogiel_user.group_class%', ~]
+        public: true
         tags:
             - { name: sonata.admin, manager_type: orm, label: Group }

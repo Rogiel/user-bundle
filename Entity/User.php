@@ -13,7 +13,7 @@
      */
 namespace Rogiel\Bundle\UserBundle\Entity;
 
-    use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

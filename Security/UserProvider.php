@@ -83,6 +83,10 @@ class UserProvider implements UserProviderInterface {
 	 * @throws UnsupportedUserException if the account is not supported
 	 */
 	public function refreshUser(UserInterface $loadedUser) {
+	    if(!$loadedUser instanceof User) {
+	        throw new UnsupportedUserException();
+        }
+
 		/** @var User $user */
 		$user = $loadedUser;
 		return $this->loadUserByUsername($user->getEmail());
